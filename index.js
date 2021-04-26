@@ -4,6 +4,7 @@ const { rejects } = require("assert");
 const fs = require("fs");
 const { resolve } = require("path");
 const util = require("util");
+const chalk = require("chalk");
 
 /*
 
@@ -95,18 +96,19 @@ fs.readdir(process.cwd(), async (err, filenames) => {
     console.log(err);
   }
 
-  const statPromises = filenames.map(filename => { 
-    return lstat(filename)
-  })
+  const statPromises = filenames.map((filename) => {
+    return lstat(filename);
+  });
 
-  const allStats = await Promise.all(statPromises)
+  const allStats = await Promise.all(statPromises);
 
   for (let stats of allStats) {
-    const idx = allStats.indexOf(stats)
-    console.log(filenames[idx], stats.isFile())
+    const idx = allStats.indexOf(stats);
+
+    if (stats.isFile()) {
+      console.log(chalk.green(filenames[idx]));
+    } else {
+      console.log(chalk.blue(filenames[idx]));
+    }
   }
-
 });
-
-
-

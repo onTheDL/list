@@ -19,5 +19,8 @@
   "homepage": "https://github.com/onTheDL/list#readme",
   "bin": {
     "node-ls": "index.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1"
   }
 }
