@@ -2,7 +2,7 @@
 
 const { rejects } = require("assert");
 const fs = require("fs");
-const { resolve } = require("path");
+const { resolve, join } = require("path");
 const util = require("util");
 const chalk = require("chalk");
 
@@ -91,13 +91,16 @@ fs.readdir(process.cwd(), async (err, filenames) => {
 
 const { lstat } = fs.promises;
 
-fs.readdir(process.cwd(), async (err, filenames) => {
+// Add node-ls commands
+const targetDir = process.argv[2] || process.cwd()
+
+fs.readdir(targetDir, async (err, filenames) => {
   if (err) {
     console.log(err);
   }
 
   const statPromises = filenames.map((filename) => {
-    return lstat(filename);
+    return lstat(join(targetDir, filename));
   });
 
   const allStats = await Promise.all(statPromises);
